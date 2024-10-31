@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Preparedness Chatbot</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; }
+        #response-container { margin-top: 20px; padding: 15px; border: 1px solid #ccc; border-radius: 8px; }
+        input[type="text"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        button { padding: 10px 20px; margin-top: 10px; border: none; background-color: #4CAF50; color: white; border-radius: 4px; cursor: pointer; }
+        button:hover { background-color: #45a049; }
+    </style>
+</head>
+<body>
+
+    <h1>Emergency Preparedness Chatbot</h1>
+    <p>Ask a question about emergency preparedness:</p>
+    <input type="text" id="user-input" placeholder="Type your question here">
+    <button onclick="getResponse()">Submit</button>
+
+    <div id="response-container"></div>
+
+    <script>
+        function getResponse() {
+            const userInput = document.getElementById("user-input").value;
+            fetch("/get_response", {
+                method: "POST",  // Ensure this is POST
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ user_input: userInput })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("response-container").innerText = "Chatbot: " + data.response;
+            })
+            .catch(error => console.error("Error:", error));
+        }
+    </script>
+
+</body>
+</html>
